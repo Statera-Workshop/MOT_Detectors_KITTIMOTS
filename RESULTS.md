@@ -150,3 +150,49 @@ Causality check: all OK.
 | cascade_rcnn | detector | 69.15 | 258.5 |  |
 | ssd | detector | 23.88 | 312.4 |  |
 
+
+
+## v1.1 extension (2026-10-31): UCMCTrack, CAMELTrack, Seg2Track-SAM2, AB3DMOT
+
+Four repositories added under the same protocol: `Statera-Workshop/MOT_TbD_UCMCTrack`, `MOT_Learned_CAMELTrack`,
+`MOTS_SAM2_Seg2Track`, `MOT_3D_AB3DMOT` (details, caveats and all numbers in their READMEs).
+
+### HOTA, KITTI-MOTS val (car / pedestrian mean)
+
+| detector | best v1.0 tracker | UCMCTrack (KITTI) | CAMEL v1.1-b | Seg2Track-SAM2 |
+|---|---|---|---|---|
+| v1 | tracktrack 0.374 | 0.324 | 0.322 | 0.512 |
+| v6 | botsort_reid 0.509 | 0.489 | 0.447 | 0.580 |
+| v8 | botsort_reid 0.443 | 0.403 | 0.400 | 0.549 |
+| v9 | botsort_reid 0.460 | 0.432 | 0.429 | 0.556 |
+| v10 | botsort_reid 0.455 | 0.422 | 0.428 | 0.573 |
+| v11 | hybridsort 0.435 | 0.404 | 0.402 | 0.579 |
+| v12 | hybridsort 0.424 | 0.390 | 0.415 | 0.546 |
+| v13 | tracktrack 0.372 | 0.357 | 0.356 | 0.545 |
+| v26 | hybridsort 0.390 | 0.351 | 0.367 | 0.522 |
+| x | botsort_reid 0.478 | 0.451 | 0.417 | 0.521 |
+| x2 | hybridsort 0.452 | 0.428 | 0.424 | 0.550 |
+| ppyoloe | tracktrack 0.487 | 0.466 | 0.441 | 0.558 |
+| rtmdet | hybridsort 0.465 | 0.448 | 0.447 | 0.563 |
+| centernet | hybridsort 0.395 | 0.339 | 0.370 | 0.558 |
+| retinanet | botsort_reid 0.535 | 0.491 | 0.460 | 0.591 |
+| fcos | botsort_reid 0.493 | 0.477 | 0.468 | 0.526 |
+| atss | tracktrack 0.527 | 0.519 | 0.482 | 0.581 |
+| gfl | hybridsort 0.522 | 0.513 | 0.494 | 0.608 |
+| tood | hybridsort 0.506 | 0.480 | 0.467 | 0.591 |
+| ssd | botsort 0.288 | 0.265 | 0.263 | 0.355 |
+| faster_rcnn | tracktrack 0.582 | 0.563 | 0.489 | 0.504 |
+| cascade_rcnn | tracktrack 0.625 | 0.600 | 0.532 | 0.606 |
+| libra_rcnn | tracktrack 0.599 | 0.564 | 0.484 | 0.512 |
+| dynamic_rcnn | tracktrack 0.579 | 0.548 | 0.472 | 0.556 |
+| deformable_detr | botsort_reid 0.482 | 0.416 | 0.406 | 0.553 |
+
+- **Seg2Track-SAM2** (zero-shot SAM2 tracking by segmentation): best on 21 of 25 detectors and nearly
+  detector-independent - the v1.0 rule "detector > threshold > tracker" largely stops holding; about 1 s per frame,
+  and KITTI-MOTS boxes are mask extents (favourable to a mask-based tracker).
+- **UCMCTrack** (ground-plane tracking): with KITTI parameters chosen on train and ego-motion from oxts it comes close
+  to the best v1.0 trackers at under 1 ms per frame, with metric trajectories from one camera.
+- **CAMELTrack** (learned association): first attempt memorised its 10 training sequences; the corrected version gains
+  +0.06-0.07 HOTA but stays below the heuristic trackers - data-limited.
+- **AB3DMOT** on LiDAR detections of the OD series: Faster R-CNN heads best (BEV HOTA about 0.54); the 3D detectors saw
+  about 28 % of the val frames in training (KITTI object / tracking overlap), so 3D numbers are optimistic.
