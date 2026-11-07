@@ -161,7 +161,7 @@ Four repositories added under the same protocol: `Statera-Workshop/MOT_TbD_UCMCT
 
 | detector | best v1.0 tracker | UCMCTrack (KITTI) | CAMEL v1.1-b | Seg2Track-SAM2 |
 |---|---|---|---|---|
-| v1 | tracktrack 0.374 | 0.324 | 0.322 | 0.512 |
+| v1 | tracktrack 0.374 | 0.324 | 0.322 | 0.571 |
 | v6 | botsort_reid 0.509 | 0.489 | 0.447 | 0.580 |
 | v8 | botsort_reid 0.443 | 0.403 | 0.400 | 0.549 |
 | v9 | botsort_reid 0.460 | 0.432 | 0.429 | 0.556 |
@@ -176,7 +176,7 @@ Four repositories added under the same protocol: `Statera-Workshop/MOT_TbD_UCMCT
 | rtmdet | hybridsort 0.465 | 0.448 | 0.447 | 0.563 |
 | centernet | hybridsort 0.395 | 0.339 | 0.370 | 0.558 |
 | retinanet | botsort_reid 0.535 | 0.491 | 0.460 | 0.591 |
-| fcos | botsort_reid 0.493 | 0.477 | 0.468 | 0.526 |
+| fcos | botsort_reid 0.493 | 0.477 | 0.468 | 0.585 |
 | atss | tracktrack 0.527 | 0.519 | 0.482 | 0.581 |
 | gfl | hybridsort 0.522 | 0.513 | 0.494 | 0.608 |
 | tood | hybridsort 0.506 | 0.480 | 0.467 | 0.591 |
@@ -186,6 +186,8 @@ Four repositories added under the same protocol: `Statera-Workshop/MOT_TbD_UCMCT
 | libra_rcnn | tracktrack 0.599 | 0.564 | 0.484 | 0.512 |
 | dynamic_rcnn | tracktrack 0.579 | 0.548 | 0.472 | 0.556 |
 | deformable_detr | botsort_reid 0.482 | 0.416 | 0.406 | 0.553 |
+
+> **v1.1.1 (2026-11-08)** - Two defects in `tools/mot/run_seg2track.py` are fixed: the detection class was guessed from the box shape (taller = pedestrian), which swapped the classes on sequences with one class, and the box layout was guessed from the values (x2 > x1 in 99 % of boxes), which read xyxy boxes as xywh when many boxes had zero width. Detection files written by this project are now read in their fixed layout with classes by name; the value-based guess remains only for files without that metadata and is recorded in `run_info.json`. An audit of every run found two affected published results, both on val sequence 0018 only, now re-run and re-evaluated (HOTA): FCOS 0.526 -> 0.585, YOLOv1 0.512 -> 0.571. The other 23 detectors are unchanged.
 
 - **Seg2Track-SAM2** (zero-shot SAM2 tracking by segmentation): best on 21 of 25 detectors and nearly
   detector-independent - the v1.0 rule "detector > threshold > tracker" largely stops holding; about 1 s per frame,

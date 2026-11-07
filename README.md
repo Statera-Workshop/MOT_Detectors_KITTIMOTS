@@ -8,6 +8,7 @@ trained here on KITTI-MOTS at 1216 x 384 from scratch; this repository carries t
 (loader normalised by the canvas height, per-axis DETR box scaling, Ultralytics target scaling).
 
 > **v1.1 (2026-10-31)**: UCMCTrack, CAMELTrack, Seg2Track-SAM2 and AB3DMOT added - summary in `RESULTS.md` (v1.1 extension).
+> **v1.1.1 (2026-11-08)**: Seg2Track-SAM2 runner fixed, FCOS and YOLOv1 Seg2Track numbers corrected - see `RESULTS.md` (v1.1 extension).
 
 ## Detectors
 
